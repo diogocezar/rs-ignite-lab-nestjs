@@ -12,12 +12,6 @@ export class InMemoryNotificationsRepository
     );
   }
 
-  async countManyByRecipientId(recipientId: string): Promise<number> {
-    return this.notifications.filter(
-      (notification) => notification.recipientId === recipientId,
-    ).length;
-  }
-
   async create(notification: Notification): Promise<void> {
     this.notifications.push(notification);
   }
@@ -25,5 +19,17 @@ export class InMemoryNotificationsRepository
   async save(notification: Notification): Promise<void> {
     const index = this.notifications.findIndex((n) => n.id === notification.id);
     this.notifications[index] = notification;
+  }
+
+  async countManyByRecipientId(recipientId: string): Promise<number> {
+    return this.notifications.filter(
+      (notification) => notification.recipientId === recipientId,
+    ).length;
+  }
+
+  async findManyByRecipientId(recipientId: string): Promise<Notification[]> {
+    return this.notifications.filter(
+      (notification) => notification.recipientId === recipientId,
+    );
   }
 }
