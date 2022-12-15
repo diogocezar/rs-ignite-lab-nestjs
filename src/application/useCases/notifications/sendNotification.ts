@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Notification } from '@application/entities/notifications/notification';
 import { Content } from '@application/entities/notifications/props/content';
 import { NotificationsRepository } from '@application/repositories/notifications/notificationsRepository';
+import { makeNotification } from '@test/factories/notificationFactory';
 
 export interface SendNotificationInput {
   recipientId: string;
@@ -18,7 +19,7 @@ export class SendNotification {
   constructor(private notificationsRepository: NotificationsRepository) {}
   async execute(input: SendNotificationInput): Promise<SendNotificationOutput> {
     const { recipientId, content, category } = input;
-    const notification = new Notification({
+    const notification = makeNotification({
       recipientId,
       content: new Content(content),
       category,

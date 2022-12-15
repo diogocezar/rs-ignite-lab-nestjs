@@ -1,6 +1,7 @@
 import { Notification } from '@application/entities/notifications/notification';
 import { Content } from '@application/entities/notifications/props/content';
 import { CountRecipienteNotification } from '@application/useCases/notifications/countRecipientNotification';
+import { makeNotification } from '@test/factories/notificationFactory';
 import { InMemoryNotificationsRepository } from '@test/repositories/inMemoryNotificationsRepository';
 
 describe('CountRecipienteNotification', () => {
@@ -11,31 +12,17 @@ describe('CountRecipienteNotification', () => {
     );
 
     notificationsRepository.create(
-      new Notification({
-        recipientId: 'some-recipient-id',
-        content: new Content('Some content'),
-        category: 'some-category',
-      }),
+      makeNotification({ recipientId: 'some-recipient-id-1' }),
     );
-
     notificationsRepository.create(
-      new Notification({
-        recipientId: 'some-recipient-id',
-        content: new Content('Some content'),
-        category: 'some-category',
-      }),
+      makeNotification({ recipientId: 'some-recipient-id-1' }),
     );
-
     notificationsRepository.create(
-      new Notification({
-        recipientId: 'some-recipient-id-2',
-        content: new Content('Some content'),
-        category: 'some-category',
-      }),
+      makeNotification({ recipientId: 'some-recipient-id-2' }),
     );
 
     const { count } = await countRecipientNotification.execute({
-      recipientId: 'some-recipient-id',
+      recipientId: 'some-recipient-id-1',
     });
 
     expect(count).toEqual(2);
